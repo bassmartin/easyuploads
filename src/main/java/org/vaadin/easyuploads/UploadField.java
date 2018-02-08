@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.util.EventObject;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -32,7 +33,7 @@ import com.vaadin.ui.Upload.StartedListener;
  * component in core Vaadin. Instead of implementing own {@link Receiver}
  * developer can just access the contents of the file or the {@link File} where
  * the contents was streamed to. In addition to easier access to the content,
- * UploadField also provides built in {@link ProgressIndicator} and displays
+ * UploadField also provides built in {ProgressIndicator} and displays
  * (partly) the uploaded file. What/how is displayed can be easily modified by
  * overriding {@link #updateDisplay()} method.
  * 
@@ -69,11 +70,11 @@ import com.vaadin.ui.Upload.StartedListener;
  * 
  */
 @SuppressWarnings({ "serial" })
-public class UploadField extends CssLayout implements HasValue<Object>, Focusable, StartedListener,
+public abstract class UploadField extends CssLayout implements Focusable, StartedListener,
         FinishedListener, ProgressListener {
     private static final int MAX_SHOWN_BYTES = 5;
 
-    private UploadFieldReceiver receiver;
+    protected UploadFieldReceiver receiver;
     private boolean displayUpload = true;
     private Upload upload;
     protected Component display;
@@ -177,10 +178,7 @@ public class UploadField extends CssLayout implements HasValue<Object>, Focusabl
         }
     }
 
-    @Override
-    public void clear() {
-        receiver.setValue(null);
-    }
+    abstract public void clear();
 
     public void setLastMimeType(String mimeType) {
         receiver.setLastMimeType(mimeType);
@@ -350,17 +348,6 @@ public class UploadField extends CssLayout implements HasValue<Object>, Focusabl
         return fileFactory;
     }
 
-    @Override
-	public void setValue(Object newValue) {
-        receiver.setValue(newValue);
-        fireValueChange();
-    }
-
-    @Override
-	public Object getValue() {
-        return receiver.getValue();
-    }
-
     public InputStream getContentAsStream() {
         return receiver.getContentAsStream();
     }
@@ -418,7 +405,7 @@ public class UploadField extends CssLayout implements HasValue<Object>, Focusabl
                 deleteButton.addClickListener(new Button.ClickListener() {
                     @Override
 					public void buttonClick(ClickEvent arg0) {
-                        setValue(null);
+                        setValueObject(null);
                         getRootLayout().removeComponent(arg0.getButton());
                         updateDisplay();
                     }
@@ -429,6 +416,10 @@ public class UploadField extends CssLayout implements HasValue<Object>, Focusabl
             }
         }
     }
+
+    abstract void setValueObject(Object object);
+
+    abstract Object getValueObject();
 
     protected void attachDeleteButton(Button b) {
 
@@ -451,7 +442,7 @@ public class UploadField extends CssLayout implements HasValue<Object>, Focusabl
             sb.append("</br> ");
         }
         sb.append("<em>");
-        Object value = getValue();
+        Object value = getValueObject();
         if (getFieldType() == FieldType.BYTE_ARRAY) {
             byte[] ba = (byte[]) value;
             int shownBytes = MAX_SHOWN_BYTES;
@@ -522,7 +513,6 @@ public class UploadField extends CssLayout implements HasValue<Object>, Focusabl
      * Adds a value change listener for the field. Don't add a JavaDoc comment
      * here, we use the default documentation from the implemented interface.
      */
-    @Override
 	public Registration addValueChangeListener(HasValue.ValueChangeListener listener) {
         return addListener(HasValue.ValueChangeEvent.class, listener,
                 VALUE_CHANGE_METHOD);
@@ -533,11 +523,13 @@ public class UploadField extends CssLayout implements HasValue<Object>, Focusabl
      * validated before the event is created.
      */
     protected void fireValueChange(boolean repaintIsNotNeeded) {
-        fireEvent(new HasValue.ValueChangeEvent(this, this, null, ! repaintIsNotNeeded));
+        fireEvent(createValueChangeEvent(repaintIsNotNeeded));
         if (!repaintIsNotNeeded) {
             requestRepaint();
         }
     }
+
+    abstract EventObject createValueChangeEvent(boolean repaintIsNotNeeded);
 
     /*
      * (non-Javadoc)
@@ -613,10 +605,9 @@ public class UploadField extends CssLayout implements HasValue<Object>, Focusabl
 
     /**
      * Is the field empty?
-     * 
+     *
      * In general, "empty" state is same as null..
      */
-    @Override
 	public boolean isEmpty() {
         return receiver.isEmpty();
     }

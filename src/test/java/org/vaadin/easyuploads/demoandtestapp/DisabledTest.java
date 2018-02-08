@@ -12,6 +12,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.easyuploads.UploadFieldFile;
 
 @Theme("valo")
 public class DisabledTest extends AbstractTest {
@@ -35,7 +36,7 @@ public class DisabledTest extends AbstractTest {
 
     }
 
-    final UploadField file = new UploadField();
+    final UploadField file = new UploadFieldFile();
     
     MyBean bean = new MyBean();
 

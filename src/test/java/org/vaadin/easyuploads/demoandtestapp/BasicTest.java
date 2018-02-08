@@ -7,10 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.vaadin.addonhelpers.AbstractTest;
-import org.vaadin.easyuploads.FileBuffer;
-import org.vaadin.easyuploads.FileFactory;
-import org.vaadin.easyuploads.MultiFileUpload;
-import org.vaadin.easyuploads.UploadField;
+import org.vaadin.easyuploads.*;
 import org.vaadin.easyuploads.UploadField.FieldType;
 import org.vaadin.easyuploads.UploadField.StorageMode;
 
@@ -40,7 +37,7 @@ public class BasicTest extends AbstractTest {
     @Override
     public Component getTestComponent() {
         VerticalLayout mainWindow = new VerticalLayout();
-        final UploadField uploadField = new UploadField();
+        final UploadFieldBytes uploadField = new UploadFieldBytes();
         uploadField.setCaption("Default mode: temp files, fieldType:"
                 + uploadField.getFieldType());
         
@@ -56,7 +53,7 @@ public class BasicTest extends AbstractTest {
         mainWindow.addComponent(b);
         mainWindow.addComponent(hr());
         
-        final UploadField uploadField2 = new UploadField();
+        final UploadFieldFile uploadField2 = new UploadFieldFile();
         uploadField2.setFieldType(FieldType.FILE);
         uploadField2.setCaption("Storagemode: temp files, fieldType:"
                 + uploadField2.getFieldType());
@@ -73,7 +70,7 @@ public class BasicTest extends AbstractTest {
         mainWindow.addComponent(b);
         mainWindow.addComponent(hr());
         
-        final UploadField uploadField3 = new UploadField();
+        final UploadFieldFile uploadField3 = new UploadFieldFile();
         uploadField3.setFieldType(FieldType.FILE);
         final File tempDir = Files.createTempDir();
         uploadField3.setCaption("Storagemode: " + tempDir + " , fieldType:"
@@ -87,7 +84,7 @@ public class BasicTest extends AbstractTest {
             }
         });
         
-        final UploadField uploadFieldHtml5Configured = new UploadField();
+        final UploadFieldFile uploadFieldHtml5Configured = new UploadFieldFile();
         uploadFieldHtml5Configured.setFieldType(FieldType.FILE);
         uploadFieldHtml5Configured.setCaption("Storagemode: " + tempDir + " , fieldType:"
                 + uploadFieldHtml5Configured.getFieldType() + " just images, max 1000000");
@@ -114,7 +111,7 @@ public class BasicTest extends AbstractTest {
         mainWindow.addComponent(b);
         mainWindow.addComponent(hr());
         
-        final UploadField uploadField4 = new UploadField();
+        final UploadFieldString uploadField4 = new UploadFieldString();
         uploadField4.setStorageMode(StorageMode.MEMORY);
         uploadField4.setFieldType(FieldType.UTF8_STRING);
         uploadField4
@@ -149,7 +146,7 @@ public class BasicTest extends AbstractTest {
         mainWindow.addComponent(b);
         mainWindow.addComponent(hr());
         
-        final UploadField uploadField5 = new UploadField();
+        final UploadFieldBytes uploadField5 = new UploadFieldBytes();
         uploadField5.setFieldType(FieldType.BYTE_ARRAY);
         uploadField5.setCaption("Storagemode: memory , fieldType:"
                 + uploadField5.getFieldType());
@@ -178,7 +175,7 @@ public class BasicTest extends AbstractTest {
         mainWindow.addComponent(b);
         mainWindow.addComponent(hr());
         
-        final UploadField uploadField6 = new UploadField() {
+        final UploadFieldBytes uploadField6 = new UploadFieldBytes() {
             @Override
             protected void updateDisplay() {
                 final byte[] pngData = (byte[]) getValue();

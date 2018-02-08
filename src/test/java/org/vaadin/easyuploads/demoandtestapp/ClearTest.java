@@ -7,13 +7,14 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.easyuploads.UploadFieldBytes;
 
 public class ClearTest extends AbstractTest {
 
     @Override
     public Component getTestComponent() {
         VerticalLayout layout = new VerticalLayout();
-        final UploadField uplDocument = new UploadField();
+        final UploadField uplDocument = new UploadFieldBytes();
         uplDocument.setButtonCaption("...Select File");
         uplDocument.setDisplayUpload(false);
         

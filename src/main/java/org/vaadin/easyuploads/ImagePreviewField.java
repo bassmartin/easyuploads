@@ -31,7 +31,7 @@ import javax.imageio.ImageIO;
 /**
  * A simple field to edit images stored as byte arrays (e.g. in database).
  */
-public class ImagePreviewField extends UploadField {
+public class ImagePreviewField extends UploadFieldBytes {
     
     public ImagePreviewField() {
         setAcceptFilter("image/*");

@@ -14,6 +14,7 @@ import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.easyuploads.UploadFieldBytes;
 
 @Theme("valo")
 public class ByteArrayWithBeanBinding extends AbstractTest {
@@ -78,7 +79,7 @@ public class ByteArrayWithBeanBinding extends AbstractTest {
 
     }
 
-    UploadField value = new UploadField(StorageMode.MEMORY);
+    UploadFieldBytes value = new UploadFieldBytes(StorageMode.MEMORY);
 
     CustomFieldEditingBothMimeAndContent fileEntity = new CustomFieldEditingBothMimeAndContent();
 
@@ -139,7 +140,7 @@ public class ByteArrayWithBeanBinding extends AbstractTest {
      */
     public static class CustomFieldEditingBothMimeAndContent extends CustomField<FileEntity> {
 
-        private UploadField field = new UploadField();
+        private UploadFieldBytes field = new UploadFieldBytes();
         private FileEntity fileEntity;
 
         public CustomFieldEditingBothMimeAndContent() {

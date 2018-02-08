@@ -26,7 +26,7 @@ public class CustomDisplayTest extends AbstractTest {
         return layout;
     }
 
-    public class ImagePreviewField extends UploadField {
+    public class ImagePreviewField extends UploadFieldBytes {
         @Override
         protected Component createDisplayComponent() {
             Image image = new Image();
