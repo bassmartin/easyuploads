@@ -77,6 +77,7 @@ public class UploadFieldFile extends UploadField implements HasValue<File> {
     @Override
     public void setValue(File newValue) {
         receiver.setValue(newValue);
+        updateDisplay();
         fireValueChange();
     }
 

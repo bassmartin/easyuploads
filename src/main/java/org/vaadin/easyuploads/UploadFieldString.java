@@ -78,6 +78,7 @@ public class UploadFieldString extends UploadField implements HasValue<String> {
     @Override
     public void setValue(String newValue) {
         receiver.setValue(newValue);
+        updateDisplay();
         fireValueChange();
     }
 

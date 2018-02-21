@@ -77,6 +77,7 @@ public class UploadFieldBytes extends UploadField implements HasValue<byte[]> {
     @Override
     public void setValue(byte[] newValue) {
         receiver.setValue(newValue);
+        updateDisplay();
         fireValueChange();
     }
 
